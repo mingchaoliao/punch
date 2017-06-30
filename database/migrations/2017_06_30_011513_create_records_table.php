@@ -23,7 +23,6 @@ class CreateRecordsTable extends Migration
             $table->timestamps();
         });
 
-        \App\User::create(['name' => 'Mingchao Liao', 'email' => 'mingchaoliao95@gmail.com', 'password' => '$2y$10$aQOhOO3YHX4ZHaWs9P3kDuMrKH6ZF41Lk/rZR0lZLaHoGPfm6bpp2']);
     }
 
     /**

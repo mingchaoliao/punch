@@ -38,7 +38,6 @@ class TimesController extends Controller
             'record_id' => $record_id,
             'start_time' => $data['start_time'],
             'end_time' => $data['end_time'],
-            'record_id' => Auth::user()->id
         ]);
 
         return redirect(route('record.index'));
