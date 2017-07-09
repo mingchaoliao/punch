@@ -7,8 +7,13 @@
                 <a href="{{ route('record.create') }}" class="btn btn-primary">Create New Item</a>
             </div>
         </div>
+        <div class="row" style="margin-top: 5px;">
+            <div class="col-lg-12 text-right">
+                <h3>Total Time: {{$totalTime}}</h3>
+            </div>
+        </div>
         @foreach($records as $index => $record)
-            <div class="row" style="margin-top: 5px;">
+            <div class="row" style="margin-top: 8px; border: 1px solid #999999; padding: 8px 0;">
                 <div class="col-lg-1" style="margin-top: 5px;">
                     @if(!count($record['times']) || $record['times'][count($record['times']) - 1]['end_time'])
                         <a href="{{ route('time.start', ['record_id' => $record['id']]) }}" class="btn btn-sm"
@@ -25,11 +30,16 @@
                     &nbsp;{{ $index + 1 }}.
                 </div>
 
-                <div class="col-lg-11">
+                <div class="col-lg-11" style="margin-top: 8px;">
                     <div class="row">
                         <div class="col-lg-12">
-                            <h2 style="font-weight: bolder; font-size: 1.5em !important; margin: 5px 0;">{{ $record['desc'] }}</h2>
-                            <div class="col-12 text-right">
+                            <div class="row" style="border-bottom: 1px solid #dddddd; border-top: 1px solid #dddddd;">
+                                <div class="col-xs-12" style="margin: 8px;">
+                                    {!! $record['desc'] !!}
+                                </div>
+                            </div>
+                            <div class="col-12 text-right" style="margin-top: 5px;">
+                                <p>{{  $record['totalTime'] }}</p>
                                 <p style="display: inline;">Config: &nbsp;</p>
                                 <a href="{{ route('time.create', ['record_id' => $record['id']]) }}" class="btn btn-sm"
                                    style="display: inline; padding: 0;">

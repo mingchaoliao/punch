@@ -17,11 +17,13 @@ class RecordsController extends Controller {
     public function index() {
         $recordsData = Records::where('user_id', Auth::user()->id)->where('is_deleted', 0)->orderBy('seq', 'asc')->get();
         $records = [];
+        $totalTime = 0;
         foreach ($recordsData as $record) {
             $payload = [
                 'id' => $record->id,
                 'desc' => $record->desc,
                 'seq' => $record->seq,
+                'totalTime' => 0,
                 'times' => []
             ];
 
@@ -35,11 +37,26 @@ class RecordsController extends Controller {
                     'start_time' => $time->start_time,
                     'end_time' => $time->end_time
                 ]);
+
+                $startTime = $time->start_time ? date_create($time->start_time)->getTimestamp() : time();
+                $endTime = $time->end_time ? date_create($time->end_time)->getTimestamp() : time();
+                $payload['totalTime'] += ($endTime - $startTime);
             }
+            $totalTime += $payload['totalTime'];
+            $payload['totalTime'] = $this->timeFormat($payload['totalTime']);
             array_push($records, $payload);
         }
 
-        return view('record.index', ['records' => $records]);
+        $totalTime = $this->timeFormat($totalTime);
+        return view('record.index', ['records' => $records, 'totalTime' => $totalTime]);
+    }
+
+    private function timeFormat($time) {
+        $hour = (int) ($time / 3600);
+        $time = $time % 3600;
+        $minute = (int) ($time / 60);
+        $second = $time % 60;
+        return "{$hour} hor {$minute} min {$second} sec";
     }
 
     /**
